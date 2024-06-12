@@ -1,0 +1,3 @@
+C:/Users/epicg/Documents/GitHub/NonLinearDataStructures/cmake-build-debug/CMakeFiles/NonLinearDataStructures.dir
+C:/Users/epicg/Documents/GitHub/NonLinearDataStructures/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Users/epicg/Documents/GitHub/NonLinearDataStructures/cmake-build-debug/CMakeFiles/rebuild_cache.dir

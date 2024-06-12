@@ -1,0 +1,29 @@
+1. ¿Calcular n-1 veces los caminos hasta el nodo dado por separado?
+Por como lo plantea parece así aunque igual que en Dijkstra debería aprovechar los resultados anteriores...
+
+2. ¿Puede no haber pseudocentro?
+A ver... Con Dijkstra (n veces? - esto se puede optimizar) obtenemos los caminos minimos de cada par de nodos.
+El mayor menor camino define nuestro par de nodos más alejados.
+Y creo que el pseudocentro es uno de los nodos que participan en el camino a estos dos pero y si hay varios? o si son dos nodos adyacentes?
+(bueno eso último contradice que sean los más alejados)
+Pero no parece que sea un nodo del camino pues luego pregunta por el diametro que sería A----C----Z y si C pertenece al camino
+la suma A---C + C----Z es igual al camino de A a Z (siendo los nodos más alejados) Entonces el pseudocentro no pertenece al camino?
+Qué sentido tendría el concepto diámetro?
+//todo VALE LOS GRAFOS SON DIRIGIDOS Y EL PSEUDOCENTRO VA A TENER UN CAMINO DIRIGIDO A A Y OTRO A B QUE NO TIENE POR QUÉ COINCIDIR CON EL
+//TODO CAMINO DE A A B (bueno uno de los caminos si)
+
+3. Me pregunta por ver en una matriz de costes si el grafo es acíclico...?
+Si lo hago por fuerza bruta recorriendo por anchura y guardando cada nuevo camino en memoria hasta que un nuevo nodo
+esté ya en la lista y diga si es cíclico. Si esto no pasa, es acíclico.
+Recorrido por profundidad no garantiza recorrer todos los nodos.
+
+//todo USO FLOYD Y QUITO LA LINEA QUE METE 0 EN LA DIAGONAL PRINCIPAL
+//todo ahora cuando aplique floyd si mejora el INF a un valor x significa que puedes volver a V desde V
+
+4. El apartado b y c hablan de lo mismo, no? b es que todos los caminos a ese nodo son infinito
+y c que un camino en concreto es infinito.
+Vale con la matriz original creo una copia y la modifico con los datos de b y c.
+Sabiendo la capital calculo el camino de coste minimo a ciudad 1 y ciudad 2. La suma de caminos da el resultado.
+//todo nos da la relacion de ciudades tomadas y carreteras cortadas
+//todo meter esos datos en una copia del grafo
+//todo hacer dijkstra inverso de ciudades a destino CAPITAL y dijkistra normal de CAPITAL a el resto de ciudades
