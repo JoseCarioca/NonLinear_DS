@@ -89,18 +89,47 @@ vector<tCoste> DijkstraInv(const GrafoP<tCoste>& G,
                            vector<typename GrafoP<tCoste>::vertice>& P)
 //Calcula los caminos de coste mínimo entre todos los vértices (menos 1)
 //del grafo hasta un destino y su correspondiente coste
-//devuelve estos costes mínimos y P es un vector de tam
+//devuelve estos costes mínimos y P es un vector de tamaño
+//G.numVert() tal que P[i] es el ultimo vertice del camino de i hasta destino
 {
-    typedef typename GrafoP<tCoste>::vertice vertice;
-    vertice v, w;
-    const size_t n = G.numVert();
-    vector<bool> S(n, false);                  // Conjunto de vértices vacío.
-    vector<tCoste> D;
-    //crear bucle para guardar destino
-    //D = G[][destino];
+   typedef typename GrafoP<tCoste>::vertice vertice;
+   vertice v, w;
+   const size_t n = G.numVert();
+   vector<bool> S(n, false);                  // Conjunto de vértices vacío.
+   vector<tCoste> D(n,0);
+   //crear bucle para guardar destino
+   //D = G[][destino];
+   for(size_t i = 0; i < G.numVert(); ++i){
+      D[i] = G[i][destino];
+   }
 
+   D[destino] = 0;
+   P = vector<vertice>(n,destino); //cuidado con la basura
 
-    //tCoste vwD = suma(G[v][w], D[w]);
+   S[destino] = true;
+   for(size_t i = 1; i < n-1; ++i){
+      tCoste costeMin = GrafoP<tCoste>::INFINITO;
+      for(v = 0; v < n; ++v){
+         if( !S[v] && D[v] < costeMin) //< or <=
+         {
+            costeMin = D[v];
+            w = v;
+         }
+      }
+      S[w] = true;
+      //tCoste vwD = suma(G[v][w], D[w]);
+      for( v = 0; v < n; ++v){
+         if ( !S[v] ){
+            tCoste vwD = suma(D[w], G[v][w]);
+            if( vwD < D[v]){
+               D[v] = vwD;
+               P[v] = w;
+            }
+         }
+      }
+
+   }
+   return D;
 }
 
 //todo crear caminoInv que te devuelva el camino a traves de P cambir primera a fin
@@ -165,6 +194,23 @@ camino(typename GrafoP<tCoste>::vertice orig,
       C.insertar(P[v], C.primera());
       v = P[v];
    } while (v != orig);
+   return C;
+}
+
+template <typename tCoste> typename GrafoP<tCoste>::tCamino
+caminoInv(typename GrafoP<tCoste>::vertice dest,
+       typename GrafoP<tCoste>::vertice v,
+       const vector<typename GrafoP<tCoste>::vertice> &P)
+// Devuelve el camino de coste mínimo entre los vértices orig e v
+// a partir de un vector P obtenido mediante la función Dijkstra().
+{
+   typename GrafoP<tCoste>::tCamino C;
+
+   C.insertar(v, C.primera());
+   do {
+      C.insertar(P[v], C.fin());
+      v = P[v];
+   } while (v != dest);
    return C;
 }
 

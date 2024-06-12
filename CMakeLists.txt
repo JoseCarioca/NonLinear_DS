@@ -3,4 +3,7 @@ project(NonLinearDataStructures)
 
 set(CMAKE_CXX_STANDARD 17)
 
-add_executable(NonLinearDataStructures main.cpp)
+add_executable(NonLinearDataStructures main.cpp
+        practica6.h
+        peroOtraVezUnGrafo.h
+        peroOtraVezUnGrafo.h)

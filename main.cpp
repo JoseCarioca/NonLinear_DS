@@ -6,11 +6,19 @@
 #include <filesystem>
 #include "grafoPMC.h"
 #include <clocale>
-#include <codecvt>
-#include <fcntl.h>
+
+#include "peroOtraVezUnGrafo.h"
+#include "practica6.h"
 
 //prueba de creacion DAT
 void createTextDatFile(const std::string& filename);
+
+//EJECUCION PRUEBA + EJER 1 (DIJKSTRAINV)
+void ejer0y1();
+//ejecucion ejercicio 2: pseudocentro
+void ejer2();
+//ejecucion ejercicio 3: aciclico
+void ejer3();
 
 GrafoP<unsigned>::tCamino
 micamino(GrafoP<unsigned>::vertice orig, GrafoP<unsigned>::vertice v,
@@ -34,40 +42,73 @@ int main() {
     using namespace std;
     setlocale(LC_ALL, "spanish");
 
+    if (false) ejer0y1();
+    if (false) ejer2();
+    if (true) ejer3();
+
+
+
+    return 0;
+}
+
+void ejer3()
+{
+    GrafoP<unsigned> Grafociclo("../pseudoCentro.dat");
+    std::cout << "El grafo:\n"<< Grafociclo << std::endl;
+    if( aciclico(Grafociclo) )
+    {
+        std::cout << "Es aciclico"<< std::endl;
+    }else std::cout << "No es aciclico"<< std::endl;
+
+    GrafoP<unsigned> GrafoA("../entradaGrafo.dat");
+    std::cout << "El grafo:\n"<< GrafoA << std::endl;
+    if( aciclico(GrafoA) )
+    {
+        std::cout << "Es aciclico"<< std::endl;
+    }else std::cout << "No es aciclico"<< std::endl;
+}
+
+
+void ejer2()
+{
+    GrafoP<unsigned> Grafopseudo("../pseudoCentro.dat");
+    std::cout << Grafopseudo << std::endl;
+
+    unsigned diametro = pseudoCentro(Grafopseudo);
+    std::cout << "Diametro del grafo: " << diametro << std::endl;
+}
+
+
+void ejer0y1()
+{
+    using namespace std;
+
     /**
      * Añade '../' a cada fichero ya que la llamada la hace Cmake desde la carpeta cmake-build-debug
      */
     GrafoP<unsigned> Gcarreteras("../entradaGrafo.dat");
     vector<typename GrafoP<unsigned>::vertice> rutas;
+    GrafoP<unsigned>::vertice origen = 1;
 
     cout << Gcarreteras << endl;
-    vector<unsigned> distancias = Dijkstra(Gcarreteras,0,rutas );
+    vector<unsigned> distancias = Dijkstra(Gcarreteras,origen,rutas );
 
     cout << "Distancias mínimas a cada vértice: " << distancias << endl;
     cout << "Rutas a seguir: " << rutas << endl;
 
-    vector<GrafoP<unsigned>::tCamino> caminos(distancias.size());
+    vector<GrafoP<unsigned>::tCamino> caminos = calcCaminos<unsigned>(origen, distancias, rutas);
 
-    GrafoP<unsigned>::vertice dest = 1;
+    //Prueba Dijkstra Inverso
+    GrafoP<unsigned>::vertice destino = 5;
+    vector<GrafoP<unsigned>::vertice> pInv;
+    vector<unsigned> dInv = DijkstraInv(Gcarreteras,destino,pInv );
 
-    //GrafoP<unsigned>::tCamino c = camino<unsigned>(0, 1, rutas);
-    for (GrafoP<unsigned>::vertice i = 0; i < Gcarreteras.numVert(); i++)
-    {
-        caminos[i] = camino<unsigned>(0,i,rutas);
-        cout << "camino desde origen hasta " << i << ": ";
-        for (auto pos = caminos[i].primera(); pos != caminos[i].fin();
-        pos = caminos[i].siguiente(pos))
-        {
-            cout << caminos[i].elemento(pos) << " ";
-        }
-        cout << endl;
-    }
+    cout << "Dist min de cada vertice a destino: " << dInv << endl;
+    cout << "Rutas a seguir: " << pInv << endl;
+
+    vector<GrafoP<unsigned>::tCamino> caminosInv = calcCaminos<unsigned>(destino, dInv, pInv);
 
 
-
-    //cout <<  << endl;
-
-    return 0;
 }
 
 
