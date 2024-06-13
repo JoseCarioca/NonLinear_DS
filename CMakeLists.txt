@@ -9,4 +9,5 @@ add_executable(NonLinearDataStructures main.cpp
         peroOtraVezUnGrafo.h
         viajeZuelandia.h
         Practica7.hpp
+        laberinto.h
 )

@@ -12,6 +12,9 @@
 #include "Practica7.hpp"
 #include "viajeZuelandia.h"
 
+#include "laberinto.h"
+
+
 //prueba de creacion DAT
 void createTextDatFile(const std::string& filename);
 
@@ -55,13 +58,28 @@ int main() {
     if (false) ejer3();
     if (false) ejer4();
 
-    p7ejer1();
+    //p7ejer1();
+    casilla entrada = casilla(0,0);
+    casilla salida = casilla(2,0);
+
+    vector<pared> paredes;
+    paredes.push_back(pared(casilla(0,0), casilla(1,0)));
+    paredes.push_back(pared(casilla(1,0), casilla(1,1)));
+    paredes.push_back(pared(casilla(0,1), casilla(1,1)));
+
+    miCamino solucion = laberinto(3, paredes, entrada, salida);
+    for (auto paso: solucion)
+    {
+        std::cout << "["  << paso.fila << ", " <<paso.columna << "]" " , ";
+    }
 
     return 0;
 }
 
 void p7ejer1()
 {
+    std::cout <<"max: " << std::numeric_limits<unsigned>::max() << std::endl;
+    std::cout <<"max: " << std::numeric_limits<size_t>::max() << std::endl;
     GrafoP<unsigned>Viajes("../entradaGrafo.dat");
     std::cout << Viajes << std::endl;
     Viaje<unsigned> viajeCaro = viajeMasCaro(Viajes);
@@ -73,6 +91,7 @@ void p7ejer1()
 
 void ejer4()
 {
+
     GrafoP<unsigned>Mapa ("../zuelandia.dat");
     //secuancia de ciudades tomadas por rebeldes:
     vector<GrafoP<unsigned>::vertice> ciudades_tomadas{3};

@@ -51,7 +51,7 @@ matriz<tCoste> antiFloyd(const GrafoP<tCoste>& G,
     P = matriz<vertice>(n);
     for (vertice i = 0; i < n; i++) {
         A[i] = G[i];                    // copia costes del grafo
-        A[i][i] = INFINITO;                    // diagonal a 0
+        A[i][i] = INFINITO;                    // diagonal a INFIN
         P[i] = vector<vertice>(n, i);   // caminos directos
     }
     // Calcular costes mínimos y caminos correspondientes
