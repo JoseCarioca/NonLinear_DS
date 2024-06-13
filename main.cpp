@@ -9,6 +9,8 @@
 
 #include "peroOtraVezUnGrafo.h"
 #include "practica6.h"
+#include "Practica7.hpp"
+#include "viajeZuelandia.h"
 
 //prueba de creacion DAT
 void createTextDatFile(const std::string& filename);
@@ -19,6 +21,12 @@ void ejer0y1();
 void ejer2();
 //ejecucion ejercicio 3: aciclico
 void ejer3();
+//void ejer4 zuelandia
+void ejer4();
+
+//practica 7
+
+void p7ejer1(); //antiFloyd o FloydMax
 
 GrafoP<unsigned>::tCamino
 micamino(GrafoP<unsigned>::vertice orig, GrafoP<unsigned>::vertice v,
@@ -44,11 +52,35 @@ int main() {
 
     if (false) ejer0y1();
     if (false) ejer2();
-    if (true) ejer3();
+    if (false) ejer3();
+    if (false) ejer4();
 
-
+    p7ejer1();
 
     return 0;
+}
+
+void p7ejer1()
+{
+    GrafoP<unsigned>Viajes("../entradaGrafo.dat");
+    std::cout << Viajes << std::endl;
+    Viaje<unsigned> viajeCaro = viajeMasCaro(Viajes);
+    std::cout << "Precio: " <<viajeCaro.coste << std::endl;
+    std::cout << "Origen: " <<viajeCaro.origen << std::endl;
+    std::cout << "Destino: " <<viajeCaro.destino << std::endl;
+}
+
+
+void ejer4()
+{
+    GrafoP<unsigned>Mapa ("../zuelandia.dat");
+    //secuancia de ciudades tomadas por rebeldes:
+    vector<GrafoP<unsigned>::vertice> ciudades_tomadas{3};
+    GrafoP<unsigned>::arista a(2,5),b(2,4);
+    vector<GrafoP<unsigned>::arista> carreteras_tomadas{a,b};
+    unsigned capital = 2;
+    matriz<unsigned> NuevoMapa = viajeZuelandia(Mapa,ciudades_tomadas,carreteras_tomadas,capital);
+    std::cout << "Nueva situacion en Zuelandia:\n" << NuevoMapa << std::endl;
 }
 
 void ejer3()
